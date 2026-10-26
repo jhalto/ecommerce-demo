@@ -1,11 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product_style.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="products-section">
+    <div class="products-container">
+
+        <!-- Header -->
+        <div class="products-header">
+            <div>
+                <span class="section-label">OUR COLLECTION</span>
+                <h1>Discover Products</h1>
+                <p>Explore our collection and find something you love.</p>
+            </div>
+
+            <div class="product-count">
+                {{ products|length }} Products
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="products-toolbar">
+            <div class="search-box">
+                <span class="search-icon">⌕</span>
+                <input type="text" id="productSearch" placeholder="Search products..." aria-label="Search products">
+            </div>
+
+            <span class="results-text" id="resultsText">
+                Showing {{ products|length }} products
+            </span>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="products-grid" id="productsGrid">
+
+            {% for product in products %}
+            <article class="product-card">
+
+                <div class="product-image">
+                    <div class="image-placeholder">
+                        <span>✦</span>
+                    </div>
+                    <span class="product-badge">PRODUCT</span>
+                </div>
+
+                <div class="product-info">
+                    <span class="product-category">COLLECTION</span>
+
+                    <h2 class="product-name">
+                        {{ product.name }}
+                    </h2>
+
+                    <div class="product-footer">
+                        <span class="product-status">
+                            <span class="status-dot"></span>
+                            Available
+                        </span>
+
+                        <a href="#" class="view-product" aria-label="View {{ product.name }}">
+                            <span>View</span>
+                            <span class="arrow">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+            </article>
+
+            {% empty %}
+            <div class="empty-state">
+                <div class="empty-icon">◇</div>
+                <h2>No products yet</h2>
+                <p>Our collection is being prepared. Please check back soon.</p>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <!-- No Search Results -->
+        <div class="no-results" id="noResults" hidden>
+            <h2>No matching products</h2>
+            <p>Try searching with a different name.</p>
+        </div>
+
+    </div>
+</section>
+
+
+<script>
+    const productSearch = document.getElementById('productSearch');
+    const productCards = document.querySelectorAll('.product-card');
+    const noResults = document.getElementById('noResults');
+    const resultsText = document.getElementById('resultsText');
+
+    productSearch.addEventListener('input', function () {
+        const query = this.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        productCards.forEach(function (card) {
+            const name = card.querySelector('.product-name')
+                .textContent.trim().toLowerCase();
+
+            const matches = name.includes(query);
+
+            card.hidden = !matches;
+
+            if (matches) {
+                visibleCount++;
+            }
+        });
+
+        noResults.hidden = visibleCount > 0 || productCards.length === 0;
+        resultsText.textContent =
+            `Showing ${visibleCount} of ${productCards.length} products`;
+    });
+</script>
+{% endblock %}

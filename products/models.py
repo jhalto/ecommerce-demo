@@ -28,7 +28,11 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500, default="No Description")
     price = models.IntegerField(default= 0)
+    image = models.ImageField(blank=True)
     category = models.ForeignKey(Category, on_delete= models.SET_NULL, null= True)
+    
+    class Meta:
+        verbose_name_plural = "Products"
     
     
     
