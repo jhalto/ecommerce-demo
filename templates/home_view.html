@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {% load static %}
 
@@ -39,37 +38,37 @@
         <div class="products-grid" id="productsGrid">
 
             {% for product in products %}
-            <article class="product-card">
+            <a href="{% url 'product_detail_view' id=product.id %}" class="product-link">
 
-                <div class="product-image">
-                    <div class="image-placeholder">
-                        <span>✦</span>
+                <article class="product-card">
+                    <div class="product-image">
+                        <div class="image-placeholder">
+                            <span>✦</span>
+                        </div>
+                        <span class="product-badge">PRODUCT</span>
                     </div>
-                    <span class="product-badge">PRODUCT</span>
-                </div>
 
-                <div class="product-info">
-                    <span class="product-category">COLLECTION</span>
+                    <div class="product-info">
+                        <span class="product-category">COLLECTION</span>
 
-                    <h2 class="product-name">
-                        {{ product.name }}
-                    </h2>
+                        <h2 class="product-name">
+                            {{ product.name }}
+                        </h2>
 
-                    <div class="product-footer">
-                        <span class="product-status">
-                            <span class="status-dot"></span>
-                            Available
-                        </span>
+                        <div class="product-footer">
+                            <span class="product-status">
+                                <span class="status-dot"></span>
+                                Available
+                            </span>
 
-                        <a href="#" class="view-product" aria-label="View {{ product.name }}">
-                            <span>View</span>
-                            <span class="arrow">↗</span>
-                        </a>
+                            <span class="view-product">
+                                View <span class="arrow">↗</span>
+                            </span>
+                        </div>
                     </div>
-                </div>
+                </article>
 
-            </article>
-
+            </a>
             {% empty %}
             <div class="empty-state">
                 <div class="empty-icon">◇</div>
